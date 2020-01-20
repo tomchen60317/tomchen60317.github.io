@@ -55,7 +55,7 @@
 <meta property="og:site_name" content="tom 的技術文章">
 <meta property="og:description" content="React Router 的三個重要元件Router:">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2020-01-20T08:27:26.487Z">
+<meta property="og:updated_time" content="2020-01-20T08:55:40.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Router 教學 - 1">
 <meta name="twitter:description" content="React Router 的三個重要元件Router:">
@@ -231,7 +231,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-20 15:37:00 / Modified: 16:27:26" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
+              <time title="Created: 2020-01-20 15:37:00 / Modified: 16:55:40" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,8 +258,8 @@
       
         <h2 id="React-Router-的三個重要元件"><a href="#React-Router-的三個重要元件" class="headerlink" title="React Router 的三個重要元件"></a>React Router 的三個重要元件</h2><h3 id="Router"><a href="#Router" class="headerlink" title="Router:"></a>Router:</h3><a id="more"></a>
 <ul>
-<li>BrowserRouter:<br>  頁面 url 不會有 # 字, 每當 url change 時, 都會發 request 到 server, 由 server render index.html, 需要 server 端的配置。</li>
-<li>HashRouter:<br>  頁面 url 會有 # 字, 但 url change 時, 不會發 request 到 server</li>
+<li>BrowserRouter:<br>  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置</li>
+<li>HashRouter:<br>  頁面 url 會有 # 字, 透過 hash 來對路由進行控制</li>
 </ul>
 <p>Code Example:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HashRouter &#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello React Router<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;HashRouter&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;<span class="regexp">/HashRouter&gt;,</span></span><br><span class="line"><span class="regexp">  document.getElementById("root")</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="Route-Matcher"><a href="#Route-Matcher" class="headerlink" title="Route Matcher:"></a>Route Matcher:</h3><ul>
