@@ -20,7 +20,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
+    hostname: new URL('http://1100137221.github.io').hostname,
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
@@ -50,7 +50,7 @@
   <meta name="description" content="關於我Hi,我是 Tom , 1993 出生, 畢業於國立高雄應用科技大學接觸網頁約三年多的時間,熱愛網頁技術 前端技術：Html5, CSS3, JavaScript, Jquery, React, React Native, Angular, Onsen UI, Cordova, Webpack, Gulp後端技術：NodeJS, Express, C#, VB, ASP.NET MVC, W">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
-<meta property="og:url" content="http://yoursite.com/about/index.html">
+<meta property="og:url" content="http://1100137221.github.io/about/index.html">
 <meta property="og:site_name" content="tom 的技術文章">
 <meta property="og:description" content="關於我Hi,我是 Tom , 1993 出生, 畢業於國立高雄應用科技大學接觸網頁約三年多的時間,熱愛網頁技術 前端技術：Html5, CSS3, JavaScript, Jquery, React, React Native, Angular, Onsen UI, Cordova, Webpack, Gulp後端技術：NodeJS, Express, C#, VB, ASP.NET MVC, W">
 <meta property="og:locale" content="zh-tw">
@@ -59,7 +59,7 @@
 <meta name="twitter:title" content="about">
 <meta name="twitter:description" content="關於我Hi,我是 Tom , 1993 出生, 畢業於國立高雄應用科技大學接觸網頁約三年多的時間,熱愛網頁技術 前端技術：Html5, CSS3, JavaScript, Jquery, React, React Native, Angular, Onsen UI, Cordova, Webpack, Gulp後端技術：NodeJS, Express, C#, VB, ASP.NET MVC, W">
 
-<link rel="canonical" href="http://yoursite.com/about/">
+<link rel="canonical" href="http://1100137221.github.io/about/">
 
 
 <script id="page-configurations">
@@ -74,14 +74,21 @@
   <title>about | tom 的技術文章
   </title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156471288-1"></script>
     <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-156471288-1');
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-156471288-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
       }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
     </script>
 
 
@@ -167,6 +174,11 @@
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
 
   </li>
   </ul>

@@ -20,7 +20,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
+    hostname: new URL('http://1100137221.github.io').hostname,
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
@@ -51,27 +51,27 @@
 <meta name="keywords" content="Entity Framework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Entity Framework x MySQL">
-<meta property="og:url" content="http://yoursite.com/2017/05/26/使用-Entity-Framework-x-MySQL/index.html">
+<meta property="og:url" content="http://1100137221.github.io/2017/05/26/使用-Entity-Framework-x-MySQL/index.html">
 <meta property="og:site_name" content="tom 的技術文章">
 <meta property="og:description" content="前言最近手邊剛好有案子需要使用到 MySQL 當資料庫，因此有機會使用 Entity Framework 來搭配 MySQ 玩玩看，我在網路上看到許多文章，有看到許多種方式用 EF 去連結 MySQL。因此我想要介紹用簡單的方式來設定，以下是我使用的方式:">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="http://yoursite.com/images/EF1.png">
-<meta property="og:image" content="http://yoursite.com/images/EF2.png">
-<meta property="og:image" content="http://yoursite.com/images/EF3.png">
-<meta property="og:image" content="http://yoursite.com/images/EF4.png">
-<meta property="og:image" content="http://yoursite.com/images/EF5.png">
-<meta property="og:image" content="http://yoursite.com/images/EF6.png">
-<meta property="og:image" content="http://yoursite.com/images/EF7.png">
-<meta property="og:image" content="http://yoursite.com/images/EF8.png">
-<meta property="og:image" content="http://yoursite.com/images/EF9.png">
-<meta property="og:image" content="http://yoursite.com/images/EF10.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF1.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF2.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF3.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF4.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF5.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF6.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF7.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF8.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF9.png">
+<meta property="og:image" content="http://1100137221.github.io/images/EF10.png">
 <meta property="og:updated_time" content="2020-01-20T03:53:23.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Entity Framework x MySQL">
 <meta name="twitter:description" content="前言最近手邊剛好有案子需要使用到 MySQL 當資料庫，因此有機會使用 Entity Framework 來搭配 MySQ 玩玩看，我在網路上看到許多文章，有看到許多種方式用 EF 去連結 MySQL。因此我想要介紹用簡單的方式來設定，以下是我使用的方式:">
-<meta name="twitter:image" content="http://yoursite.com/images/EF1.png">
+<meta name="twitter:image" content="http://1100137221.github.io/images/EF1.png">
 
-<link rel="canonical" href="http://yoursite.com/2017/05/26/使用-Entity-Framework-x-MySQL/">
+<link rel="canonical" href="http://1100137221.github.io/2017/05/26/使用-Entity-Framework-x-MySQL/">
 
 
 <script id="page-configurations">
@@ -85,14 +85,21 @@
 
   <title>使用 Entity Framework x MySQL | tom 的技術文章</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156471288-1"></script>
     <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-156471288-1');
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-156471288-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
       }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
     </script>
 
 
@@ -180,6 +187,11 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
   </ul>
 
 </nav>
@@ -206,7 +218,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/使用-Entity-Framework-x-MySQL/">
+    <link itemprop="mainEntityOfPage" href="http://1100137221.github.io/2017/05/26/使用-Entity-Framework-x-MySQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">

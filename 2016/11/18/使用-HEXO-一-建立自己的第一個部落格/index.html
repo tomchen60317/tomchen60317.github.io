@@ -20,7 +20,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
+    hostname: new URL('http://1100137221.github.io').hostname,
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
@@ -51,7 +51,7 @@
 <meta name="keywords" content="Node.js,Hexo,Github,Blog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 HEXO(一): 建立自己的第一個部落格">
-<meta property="og:url" content="http://yoursite.com/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/index.html">
+<meta property="og:url" content="http://1100137221.github.io/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/index.html">
 <meta property="og:site_name" content="tom 的技術文章">
 <meta property="og:description" content="前言這是人生的第一篇技術文章，今天主要是介紹如何使用 Hexo 建立自己的 Blog">
 <meta property="og:locale" content="zh-tw">
@@ -60,7 +60,7 @@
 <meta name="twitter:title" content="使用 HEXO(一): 建立自己的第一個部落格">
 <meta name="twitter:description" content="前言這是人生的第一篇技術文章，今天主要是介紹如何使用 Hexo 建立自己的 Blog">
 
-<link rel="canonical" href="http://yoursite.com/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/">
+<link rel="canonical" href="http://1100137221.github.io/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/">
 
 
 <script id="page-configurations">
@@ -74,14 +74,21 @@
 
   <title>使用 HEXO(一): 建立自己的第一個部落格 | tom 的技術文章</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156471288-1"></script>
     <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-156471288-1');
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-156471288-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
       }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
     </script>
 
 
@@ -169,6 +176,11 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
   </ul>
 
 </nav>
@@ -195,7 +207,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/">
+    <link itemprop="mainEntityOfPage" href="http://1100137221.github.io/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
