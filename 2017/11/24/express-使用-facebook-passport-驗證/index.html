@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言近期開始再玩 Express, 發現一個很好用的 authentication middleware (Passport ) ,Passport 是一套整合很多驗證的模組, 例如: Login, Fb, Google… 等,讓我們能快速開發登入功能, 是一個整合不錯的套件。">
+<meta name="keywords" content="Node.js,Passport,Graphy Api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Express 使用 Passport-Facebook 驗證,串接 Graphy Api">
+<meta property="og:url" content="http://yoursite.com/2017/11/24/express-使用-facebook-passport-驗證/index.html">
+<meta property="og:site_name" content="tom 的技術文章">
+<meta property="og:description" content="前言近期開始再玩 Express, 發現一個很好用的 authentication middleware (Passport ) ,Passport 是一套整合很多驗證的模組, 例如: Login, Fb, Google… 等,讓我們能快速開發登入功能, 是一個整合不錯的套件。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2020-01-20T03:53:09.835Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Express 使用 Passport-Facebook 驗證,串接 Graphy Api">
+<meta name="twitter:description" content="前言近期開始再玩 Express, 發現一個很好用的 authentication middleware (Passport ) ,Passport 是一套整合很多驗證的模組, 例如: Login, Fb, Google… 等,讓我們能快速開發登入功能, 是一個整合不錯的套件。">
+
+<link rel="canonical" href="http://yoursite.com/2017/11/24/express-使用-facebook-passport-驗證/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Express 使用 Passport-Facebook 驗證,串接 Graphy Api | tom 的技術文章</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tom 的技術文章</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/24/express-使用-facebook-passport-驗證/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tom.chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tom 的技術文章">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Express 使用 Passport-Facebook 驗證,串接 Graphy Api
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-24 10:50:49" itemprop="dateCreated datePublished" datetime="2017-11-24T10:50:49+08:00">2017-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-20 11:53:09" itemprop="dateModified" datetime="2020-01-20T11:53:09+08:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Node.js</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期開始再玩 Express, 發現一個很好用的 authentication middleware (<a href="https://github.com/jaredhanson/passport" target="_blank" rel="noopener">Passport</a> ) ,<br>Passport 是一套整合很多驗證的模組, 例如: Login, Fb, Google… 等,<br>讓我們能快速開發登入功能, 是一個整合不錯的套件。<br><a id="more"></a></p>
+<h1 id="操作步驟"><a href="#操作步驟" class="headerlink" title="操作步驟"></a>操作步驟</h1><h2 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h2><p>要使用 Fb 登入驗證, 需要至 <a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener">Facebook-Developer</a> 註冊一個 App。</p>
+<h2 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h2><p>安裝需要的模組<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save express express-session mongoose passport passport-facebook request-promise</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h2><p>撰寫 passport-facebook 的 Strategy, 使用者登入成功後, 會呼叫此驗證策略,<br>並取得使用者的資料以及 access_token, 透過 access_token 我們可以用 fb 的<br>graphy api 取得一些使用者的資訊</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//file: passport.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>); <span class="comment">//passport 模組</span></span><br><span class="line"><span class="keyword">var</span> FaceBookStrategy = <span class="built_in">require</span>(<span class="string">'passport-facebook'</span>).Strategy; <span class="comment">//facebook 驗證</span></span><br><span class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">'request-promise'</span>);  <span class="comment">//request 模組</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">passport</span>) </span>&#123;</span><br><span class="line">    passport.use(<span class="keyword">new</span> FaceBookStrategy(&#123;</span><br><span class="line">            clientID:<span class="string">'your client id'</span>,</span><br><span class="line">            clientSecret:<span class="string">'your client secret'</span>,</span><br><span class="line">            profileFields:[<span class="string">'email'</span>,<span class="string">'displayName'</span>], <span class="comment">//取得使用者資料的哪些欄位,並回傳至 callback 的 profile 參數</span></span><br><span class="line">            callbackURL:<span class="string">'auth/facebook/callback'</span>, <span class="comment">//登入成功導回至哪個 url</span></span><br><span class="line">            passReqToCallback:<span class="literal">true</span> <span class="comment">//是否要傳 request 至 callback</span></span><br><span class="line">        &#125;,(req, token, refreshToken, profile, done)=&gt;&#123;  <span class="comment">//第一個參數 req 取決於 passReqToCallback 是 true or false, true 則會傳入至 callback</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 取得 graphy api user 的哪些欄位</span></span><br><span class="line">            <span class="keyword">const</span> userFieldSet = <span class="string">'id, name, about, email, accounts, link, is_verified, significant_other, relationship_status, website, picture, photos, feed'</span>;</span><br><span class="line">            <span class="keyword">const</span> options = &#123;</span><br><span class="line">                method: <span class="string">'GET'</span>,</span><br><span class="line">                uri: <span class="string">`https://graph.facebook.com/v2.11/me`</span>,</span><br><span class="line">                qs: &#123;</span><br><span class="line">                    access_token: token,</span><br><span class="line">                    fields: userFieldSet</span><br><span class="line">                &#125;,</span><br><span class="line">                json:<span class="literal">true</span> <span class="comment">//true 的話會自動將資料做 JSON.parse</span></span><br><span class="line">            &#125;;</span><br><span class="line">            request(options)</span><br><span class="line">                .then(<span class="function"><span class="params">fbRes</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(fbRes);</span><br><span class="line">                    <span class="keyword">return</span> done(<span class="literal">null</span>,fbRes);</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h2><p>撰寫路由的部分<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file: index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>); <span class="comment">//passport 模組</span></span><br><span class="line"><span class="keyword">var</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>);</span><br><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express(); <span class="comment">//建立 express app</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'passport'</span>)(passport) <span class="comment">//引用剛剛寫的 Fb 驗證策略</span></span><br><span class="line"></span><br><span class="line">mongoose.Promise = global.Promise; <span class="comment">//解決錯誤訊息()</span></span><br><span class="line">mongoose.connect(<span class="string">'dbUrl'</span>); <span class="comment">//連線 mongodb</span></span><br><span class="line"></span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    secret:<span class="string">"This is myTest key"</span>,<span class="comment">// 設定 secret 計算 hash 值並放在在 cookie 中，產生的 signedCookie 防竄改</span></span><br><span class="line">    resave:<span class="literal">false</span>, <span class="comment">//不要更新 session</span></span><br><span class="line">    saveUninitialized:<span class="literal">false</span> ,<span class="comment">// 設定 false，強制建立一個 session，即使用户未登入</span></span><br><span class="line">    store:<span class="keyword">new</span> MongoStore(&#123;<span class="attr">mongooseConnection</span>:mongoose.connection&#125;) <span class="comment">//將 session 存到 mongodb</span></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">app.use(passport.initialize()); <span class="comment">//初始化 passport 驗證</span></span><br><span class="line">app.use(passport.session()); <span class="comment">//passport 啟用 session</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//首頁</span></span><br><span class="line">app.get(<span class="string">'/'</span>,(req,res,next)=&gt;&#123;</span><br><span class="line">    res.render(<span class="string">'index'</span>,&#123;<span class="attr">title</span>:<span class="string">'Index'</span>&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//fb 登入動作</span></span><br><span class="line">app.get(<span class="string">'/auth/facebook'</span>,passport.authenticate(<span class="string">'facebook'</span>,&#123; <span class="comment">//使用剛剛撰寫的 facebook 驗證策略</span></span><br><span class="line">    scope:[<span class="string">'email'</span>,<span class="string">'user_about_me'</span>,<span class="string">'user_location'</span>,<span class="string">'user_photos'</span>,<span class="string">'user_posts'</span>] <span class="comment">//要求權限</span></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line"><span class="comment">//fb 驗證策略做完,回傳的 callback</span></span><br><span class="line">app.get(<span class="string">'/auth/facebook/callback'</span>,passport.authenticate(<span class="string">'facebook'</span>,&#123;</span><br><span class="line">    successRedirect : <span class="string">'/home'</span>, <span class="comment">//成功導頁至</span></span><br><span class="line">    failureRedirect : <span class="string">'/login'</span>, <span class="comment">//失敗導頁至</span></span><br><span class="line">    failureFlash : <span class="literal">true</span> <span class="comment">//失敗或自動刷新</span></span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step5"><a href="#Step5" class="headerlink" title="Step5:"></a>Step5:</h2><p>view 的部分<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--file: index.ejs--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/auth/facebook"</span> <span class="attr">class</span>=<span class="string">"form-control btn btn-primary"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-facebook"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span>signup with facebook</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="參考連結"><a href="#參考連結" class="headerlink" title="參考連結:"></a>參考連結:</h1><p><a href="http://www.passportjs.org/docs/facebook/" target="_blank" rel="noopener">官方教學</a><br><a href="https://lorenstewart.me/2017/03/12/using-node-js-to-interact-with-facebooks-graph-api/" target="_blank" rel="noopener">Express+Passport+Graphy Api</a><br><a href="https://developers.facebook.com/docs/graph-api/reference" target="_blank" rel="noopener">Graphy Api Doc</a><br><a href="https://developers.facebook.com/docs/facebook-login/permissions#reference-user_about_me" target="_blank" rel="noopener">Graphy Api Permission</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Passport/" rel="tag"># Passport</a>
+              <a href="/tags/Graphy-Api/" rel="tag"># Graphy Api</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/26/使用-Entity-Framework-x-MySQL/" rel="prev" title="使用 Entity Framework x MySQL">
+      <i class="fa fa-chevron-left"></i> 使用 Entity Framework x MySQL
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作步驟"><span class="nav-number">2.</span> <span class="nav-text">操作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step1"><span class="nav-number">2.1.</span> <span class="nav-text">Step1:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step2"><span class="nav-number">2.2.</span> <span class="nav-text">Step2:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step3"><span class="nav-number">2.3.</span> <span class="nav-text">Step3:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step4"><span class="nav-number">2.4.</span> <span class="nav-text">Step4:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step5"><span class="nav-number">2.5.</span> <span class="nav-text">Step5:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#參考連結"><span class="nav-number">3.</span> <span class="nav-text">參考連結:</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tom.chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tom.chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

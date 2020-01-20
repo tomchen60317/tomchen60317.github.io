@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言由於專案需求常常要用到圖文編輯器，所以研究了一下 CKEditor 如何搭配 ASP.NET MVC上使用，因此今天要介紹如何在 ASP.NET MVC 中使用 CKEditor。">
+<meta name="keywords" content="ASP.NET MVC,CKEditor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ASP.NET MVC 搭配 CKEditor">
+<meta property="og:url" content="http://yoursite.com/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/index.html">
+<meta property="og:site_name" content="tom 的技術文章">
+<meta property="og:description" content="前言由於專案需求常常要用到圖文編輯器，所以研究了一下 CKEditor 如何搭配 ASP.NET MVC上使用，因此今天要介紹如何在 ASP.NET MVC 中使用 CKEditor。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://yoursite.com/images/ckeditor_p1.png">
+<meta property="og:image" content="http://yoursite.com/images/ckeditor_p2.png">
+<meta property="og:updated_time" content="2020-01-20T03:53:17.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 ASP.NET MVC 搭配 CKEditor">
+<meta name="twitter:description" content="前言由於專案需求常常要用到圖文編輯器，所以研究了一下 CKEditor 如何搭配 ASP.NET MVC上使用，因此今天要介紹如何在 ASP.NET MVC 中使用 CKEditor。">
+<meta name="twitter:image" content="http://yoursite.com/images/ckeditor_p1.png">
+
+<link rel="canonical" href="http://yoursite.com/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>使用 ASP.NET MVC 搭配 CKEditor | tom 的技術文章</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tom 的技術文章</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tom.chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tom 的技術文章">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 ASP.NET MVC 搭配 CKEditor
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-12-06 10:09:59" itemprop="dateCreated datePublished" datetime="2016-12-06T10:09:59+08:00">2016-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-20 11:53:17" itemprop="dateModified" datetime="2020-01-20T11:53:17+08:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASP-NET-MVC/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET MVC</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由於專案需求常常要用到圖文編輯器，所以研究了一下 CKEditor 如何搭配 ASP.NET MVC上使用，<br>因此今天要介紹如何在 ASP.NET MVC 中使用 CKEditor。<br><a id="more"></a></p>
+<h1 id="下載"><a href="#下載" class="headerlink" title="下載"></a>下載</h1><p>先去官網下載 <a href="http://ckeditor.com/download" target="_blank" rel="noopener">ckeditor</a> 。</p>
+<h1 id="操作步驟"><a href="#操作步驟" class="headerlink" title="操作步驟"></a>操作步驟</h1><h2 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h2><p>先將下載的 CKEditor 檔案放置 Scripts 資料夾內。<br><img src="/images/ckeditor_p1.png" alt="p1"></p>
+<h2 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h2><p>先建立一個 Textarea 並指定 ID，待會才能使用 CKEditor 取代這個 Html Element。<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="keyword">class</span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">    @Html.LabelFor(model =&gt; model.Content, <span class="keyword">new</span> &#123; @<span class="keyword">class</span> = <span class="string">"control-label col-md-2"</span> &#125;)</span><br><span class="line">    &lt;div <span class="keyword">class</span>=<span class="string">"col-md-10"</span>&gt;</span><br><span class="line">        @Html.TextArea(<span class="string">"Content"</span>, <span class="keyword">new</span> &#123; @<span class="keyword">class</span> = <span class="string">"ckeditor"</span> &#125;)</span><br><span class="line">        @Html.ValidationMessageFor(model =&gt; model.Content)</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h2><p>在頁面引用 ckeditor 的 js ，並指定要取代的 Html Element，這樣就成功在 Html 渲染出<br>一個圖文編輯器了。<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@section Scripts &#123;</span><br><span class="line">    &lt;script src=<span class="string">"@Url.Content("</span>~/Scripts/ckeditor/ckeditor.js<span class="string">")"</span> type=<span class="string">"text/javascript"</span>&gt;&lt;/script&gt;</span><br><span class="line">    @*加入圖片上傳頁籤，放在頁面底下，放在頁面head區的話，會抓不到myText DOM*@</span><br><span class="line">    &lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">        CKEDITOR.replace(<span class="string">'Content'</span>, &#123; filebrowserImageUploadUrl: <span class="string">'/Upload/UploadPicture'</span> &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/ckeditor_p2.png" alt="p2"></p>
+<h2 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h2><p>在後端接 CKEditor 值的時候，要注意以下的部分:</p>
+<ol>
+<li>在 Controller 中所對應的 Action 方法上，記得要設定 ValidateInput(false)，否則接到 ckeditor的值的<br>時候會有錯誤。</li>
+<li>由於設定了  ValidateInput(false) ，會遭受到 XSS 攻擊或是輸入內容有不善或惡意的指令，因此我們必須<br>要做一些防護措施。我是使用了 HtmlSanitizer，幫我在進資料庫之前，把一些特殊的字元進行過濾掉。<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">HttpPost</span>]</span><br><span class="line">[<span class="meta">ValidateInput(false)</span>]</span><br><span class="line">[<span class="meta">ValidateAntiForgeryToken</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Create</span>(<span class="params">[Bind(Include=<span class="string">"Title,Content"</span></span>)] About about)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> sanitizer = <span class="keyword">new</span> HtmlSanitizer();</span><br><span class="line">        about.Content = sanitizer.Sanitize(about.Content);</span><br><span class="line">        db.About.Add(about);</span><br><span class="line">        db.SaveChanges();</span><br><span class="line">        <span class="keyword">return</span> RedirectToAction(<span class="string">"Index"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(about);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="參考連結"><a href="#參考連結" class="headerlink" title="參考連結:"></a>參考連結:</h1><ol>
+<li><a href="http://kevintsengtw.blogspot.tw/2011/12/aspnet-mvc-3-ckeditor.html" target="_blank" rel="noopener">http://kevintsengtw.blogspot.tw/2011/12/aspnet-mvc-3-ckeditor.html</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ASP-NET-MVC/" rel="tag"># ASP.NET MVC</a>
+              <a href="/tags/CKEditor/" rel="tag"># CKEditor</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/" rel="prev" title="使用 HEXO(一): 建立自己的第一個部落格">
+      <i class="fa fa-chevron-left"></i> 使用 HEXO(一): 建立自己的第一個部落格
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/12/06/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/" rel="next" title="ASP.NET MVC x CKEditor 檔案上傳至 Azure Storage ">
+      ASP.NET MVC x CKEditor 檔案上傳至 Azure Storage  <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下載"><span class="nav-number">2.</span> <span class="nav-text">下載</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作步驟"><span class="nav-number">3.</span> <span class="nav-text">操作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step1"><span class="nav-number">3.1.</span> <span class="nav-text">Step1:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step2"><span class="nav-number">3.2.</span> <span class="nav-text">Step2:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step3"><span class="nav-number">3.3.</span> <span class="nav-text">Step3:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step4"><span class="nav-number">3.4.</span> <span class="nav-text">Step4:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#參考連結"><span class="nav-number">4.</span> <span class="nav-text">參考連結:</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tom.chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tom.chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
