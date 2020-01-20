@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://1100137221.github.io/about/index.html</loc>
+    
+    <lastmod>2020-01-20T08:32:24.985Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://1100137221.github.io/2020/01/20/react/react-router-dom-1/</loc>
     
     <lastmod>2020-01-20T08:27:26.487Z</lastmod>
@@ -54,13 +61,6 @@
     <loc>http://1100137221.github.io/categories/index.html</loc>
     
     <lastmod>2020-01-09T06:37:00.066Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1100137221.github.io/about/index.html</loc>
-    
-    <lastmod>2020-01-09T06:37:00.065Z</lastmod>
     
   </url>
   
