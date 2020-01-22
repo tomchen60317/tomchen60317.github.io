@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WA22moK2sBgIUEhfDxvtrATTl4iVeWAkNZ9KADzePo4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://tomchen60317.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言在 React Hook 的風潮帶動下, React Router 在 v5.1 版的時候,也 Release 了 useParams, useLocation, useHistory, useRouteMatch 的 Hooks,接下來我會介紹這幾種 Hooks 的用法, 讓你的 React Router 也 Hook 起來吧。">
+<meta name="keywords" content="react,react router,hook,react hook,react router hook">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Router 與 Hook 的邂逅">
+<meta property="og:url" content="http://tomchen60317.github.io/2020/01/22/react/React-Router-與-Hook-邂逅-2/index.html">
+<meta property="og:site_name" content="tom 的技術文章">
+<meta property="og:description" content="前言在 React Hook 的風潮帶動下, React Router 在 v5.1 版的時候,也 Release 了 useParams, useLocation, useHistory, useRouteMatch 的 Hooks,接下來我會介紹這幾種 Hooks 的用法, 讓你的 React Router 也 Hook 起來吧。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2020-01-22T08:14:43.455Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Router 與 Hook 的邂逅">
+<meta name="twitter:description" content="前言在 React Hook 的風潮帶動下, React Router 在 v5.1 版的時候,也 Release 了 useParams, useLocation, useHistory, useRouteMatch 的 Hooks,接下來我會介紹這幾種 Hooks 的用法, 讓你的 React Router 也 Hook 起來吧。">
+
+<link rel="canonical" href="http://tomchen60317.github.io/2020/01/22/react/React-Router-與-Hook-邂逅-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>React Router 與 Hook 的邂逅 | tom 的技術文章</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-156697286-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tom 的技術文章</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/22/react/React-Router-與-Hook-邂逅-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile/tom.jpg">
+      <meta itemprop="name" content="tom.chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tom 的技術文章">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React Router 與 Hook 的邂逅
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-22 16:10:00 / Modified: 16:14:43" itemprop="dateCreated datePublished" datetime="2020-01-22T16:10:00+08:00">2020-01-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在 React Hook 的風潮帶動下, React Router 在 v5.1 版的時候,<br>也 Release 了 useParams, useLocation, useHistory, useRouteMatch 的 Hooks,<br>接下來我會介紹這幾種 Hooks 的用法, 讓你的 React Router 也 Hook 起來吧。<br><a id="more"></a></p>
+<h3 id="useParams"><a href="#useParams" class="headerlink" title="useParams"></a>useParams</h3><p>以下範例是以往的寫法, 如果 URL 是 /portfolio/123, 就會 Match 到 Route, 並 Render Portfolio Component,  Portfolio Component 的 props 裡面就有 Router 的一些資訊, 如果我們想要取得 URL 上的 id 資訊, 就可以從 props.match.params.id 取出 id 資訊為 “123”</p>
+<p>程式範例(舊寫法):<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserRouter <span class="keyword">as</span> Router, Route, Switch, Link &#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Portfolio = <span class="function"><span class="params">props</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; match &#125; = props;</span><br><span class="line">    <span class="keyword">let</span> &#123;id&#125; = match.params;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            Portfolio component</span><br><span class="line">            &lt;p&gt;Url params: &#123;id&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">            &lt;Router&gt;</span><br><span class="line">                &lt;ul&gt;</span><br><span class="line">                    &lt;li&gt;</span><br><span class="line">                        &lt;Link to=<span class="string">"/"</span>&gt;Home&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;/</span>li&gt;</span><br><span class="line">                    &lt;li&gt;</span><br><span class="line">                        &lt;Link to=<span class="string">"/contact"</span>&gt;Contact&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;/</span>li&gt;</span><br><span class="line">                    &lt;li&gt;</span><br><span class="line">                        &lt;Link to=<span class="string">"/portfolio/6"</span>&gt;Portfolio&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;/</span>li&gt;</span><br><span class="line">                &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">                &lt;Switch&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;Route exact path="/</span><span class="string">" component=&#123;Home&#125; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path="</span>/portfolio/:id<span class="string">" component=&#123;Portfolio&#125; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path="</span>/contact<span class="string">" component=&#123;Contact&#125; /&gt;</span></span><br><span class="line"><span class="string">                &lt;/Switch&gt;</span></span><br><span class="line"><span class="string">            &lt;/Router&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    );</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>程式範例(新寫法 Hook):<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useParams&#125; <span class="keyword">from</span> <span class="string">"react-router"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; BrowserRouter <span class="keyword">as</span> Router, Route, Link &#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Portfolio = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> &#123; id &#125; = useParams();</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            Portfolio component</span><br><span class="line">            &lt;p&gt;Topic: &#123;id&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="useLocation"><a href="#useLocation" class="headerlink" title="useLocation"></a>useLocation</h3><p>useLocation 會回傳一個 Object 的物件, 裡面包含 pathname, search, hash, key 與 state 等資訊,<br>舉下面的範例, 我們可以透過 Link 的 to 屬性, 設定它 的 pathname 和 state, 我們就可以在 Settings Component 透過 useLocation 的 Hook 輕易的取得 pathname 和 state。</p>
+<p>程式範例:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useLocation&#125; <span class="keyword">from</span> <span class="string">"react-router"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Settings = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> location = useLocation();</span><br><span class="line">    <span class="built_in">console</span>.log(location);</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>settings component<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">            &lt;Router&gt;</span><br><span class="line">                &lt;ul&gt;</span><br><span class="line">                    &lt;li&gt;</span><br><span class="line">                        &lt;Link</span><br><span class="line">                            to=&#123;&#123;</span><br><span class="line">                                pathname: <span class="string">"/settings"</span>,</span><br><span class="line">                                state: &#123;</span><br><span class="line">                                    fromNavBar: <span class="literal">true</span></span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;&#125;</span><br><span class="line">                        &gt;</span><br><span class="line">                            Settings</span><br><span class="line">                        &lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;/</span>li&gt;</span><br><span class="line">                &lt;<span class="regexp">/ul&gt;</span></span><br><span class="line"><span class="regexp">                &lt;Switch&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;Route exact path="/</span><span class="string">" component=&#123;Home&#125; /&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path="</span>/settings<span class="string">" component=&#123;Settings&#125; /&gt;</span></span><br><span class="line"><span class="string">                &lt;/Switch&gt;</span></span><br><span class="line"><span class="string">            &lt;/Router&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    );</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// console</span></span><br><span class="line"><span class="string">// &#123;</span></span><br><span class="line"><span class="string">//   "</span>pathname<span class="string">": "</span>/settings<span class="string">",</span></span><br><span class="line"><span class="string">//   "</span>state<span class="string">": &#123;</span></span><br><span class="line"><span class="string">//     "</span>fromNavBar<span class="string">": true</span></span><br><span class="line"><span class="string">//   &#125;,</span></span><br><span class="line"><span class="string">//   "</span>search<span class="string">": "</span><span class="string">",</span></span><br><span class="line"><span class="string">//   "</span>hash<span class="string">": "</span><span class="string">",</span></span><br><span class="line"><span class="string">//   "</span>key<span class="string">": "</span>x8vmq3<span class="string">"</span></span><br><span class="line"><span class="string">// &#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="useHistory"><a href="#useHistory" class="headerlink" title="useHistory"></a>useHistory</h3><p>useHistory 會回傳一個物件, 裡面包含許多 navigation 方法, 例如: goBack 返回上一頁, push 到某一頁…等。</p>
+<p>程式範例:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useHistory &#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Profile = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> history = useHistory();</span><br><span class="line">    <span class="built_in">console</span>.log(history);</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;button onClick=&#123;() =&gt; history.goBack()&#125;&gt;Back&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;button onClick=&#123;() =&gt; history.push("/</span><span class="string">")&#125;&gt;Home&lt;/button&gt;</span></span><br><span class="line"><span class="string">            &lt;section&gt;</span></span><br><span class="line"><span class="string">                &lt;p&gt;profile page&lt;/p&gt;</span></span><br><span class="line"><span class="string">            &lt;/section&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    );</span></span><br><span class="line"><span class="string">&#125;;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="useRouteMatch"><a href="#useRouteMatch" class="headerlink" title="useRouteMatch"></a>useRouteMatch</h3><p>接下來介紹最後一個 Hook 是 useRouteMatch, 這個 Hook 讓我們可以輕易 access match 這個屬性, 以往都要透過 Route Component 方式取得 match 屬性, useRouteMatch 跟 Route Component 的行為基本上是一樣的, 且寫起來更優雅。</p>
+<p>以下為取得 match object 的方式:</p>
+<ul>
+<li>Route component as this.props.match</li>
+<li>Route render as ({ match }) =&gt; ()</li>
+<li>Route children as ({ match }) =&gt; ()</li>
+<li>withRouter as this.props.match</li>
+<li>matchPath as the return value</li>
+</ul>
+<p>程式範例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useRouteMatch &#125; <span class="keyword">from</span> <span class="string">"react-router"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> match = useRouteMatch(&#123;</span><br><span class="line">        path: <span class="string">"/Movies/:id/"</span>,</span><br><span class="line">        strict: <span class="literal">true</span>,</span><br><span class="line">        sensitive: <span class="literal">true</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;match &amp;&amp; <span class="xml"><span class="tag">&lt;<span class="name">Movies</span> <span class="attr">match</span>=<span class="string">&#123;match&#125;</span> /&gt;</span>&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h3><p>介紹完以上的 Hook API, 相信可以導入到我們的專案上, 讓我們寫起來更方便且愉快 。</p>
+<h3 id="參考連結"><a href="#參考連結" class="headerlink" title="參考連結:"></a>參考連結:</h3><p><a href="https://reacttraining.com/react-router/web/api/Hooks/useparams" target="_blank" rel="noopener">官方教學</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/react/" rel="tag"># react</a>
+              <a href="/tags/react-router/" rel="tag"># react router</a>
+              <a href="/tags/hook/" rel="tag"># hook</a>
+              <a href="/tags/react-hook/" rel="tag"># react hook</a>
+              <a href="/tags/react-router-hook/" rel="tag"># react router hook</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/20/react/React-Router-基本概念/" rel="prev" title="React Router 基本概念">
+      <i class="fa fa-chevron-left"></i> React Router 基本概念
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useParams"><span class="nav-number">2.</span> <span class="nav-text">useParams</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useLocation"><span class="nav-number">3.</span> <span class="nav-text">useLocation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useHistory"><span class="nav-number">4.</span> <span class="nav-text">useHistory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useRouteMatch"><span class="nav-number">5.</span> <span class="nav-text">useRouteMatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#總結"><span class="nav-number">6.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考連結"><span class="nav-number">7.</span> <span class="nav-text">參考連結:</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="tom.chen"
+      src="/images/profile/tom.jpg">
+  <p class="site-author-name" itemprop="name">tom.chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tomchen60317" title="GitHub → https://github.com/tomchen60317" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:tom603172002@gmail.com" title="E-Mail → mailto:tom603172002@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tom.chen</span>
+</div>
+  <div class="powered-by">Powered by <a rel="external nofollow" class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

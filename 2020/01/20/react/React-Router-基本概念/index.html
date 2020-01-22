@@ -47,20 +47,20 @@
   };
 </script>
 
-  <meta name="description" content="React Router 的三個重要元件Router:">
+  <meta name="description" content="React Router 的三個重要元件Router: BrowserRouter:  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置">
 <meta name="keywords" content="react,react router">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React Router 教學 - 1">
-<meta property="og:url" content="http://tomchen60317.github.io/2020/01/20/react/react-router-dom-1/index.html">
+<meta property="og:title" content="React Router 基本概念">
+<meta property="og:url" content="http://tomchen60317.github.io/2020/01/20/react/React-Router-基本概念/index.html">
 <meta property="og:site_name" content="tom 的技術文章">
-<meta property="og:description" content="React Router 的三個重要元件Router:">
+<meta property="og:description" content="React Router 的三個重要元件Router: BrowserRouter:  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2020-01-20T08:55:40.759Z">
+<meta property="og:updated_time" content="2020-01-22T06:50:20.173Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React Router 教學 - 1">
-<meta name="twitter:description" content="React Router 的三個重要元件Router:">
+<meta name="twitter:title" content="React Router 基本概念">
+<meta name="twitter:description" content="React Router 的三個重要元件Router: BrowserRouter:  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置">
 
-<link rel="canonical" href="http://tomchen60317.github.io/2020/01/20/react/react-router-dom-1/">
+<link rel="canonical" href="http://tomchen60317.github.io/2020/01/20/react/React-Router-基本概念/">
 
 
 <script id="page-configurations">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>React Router 教學 - 1 | tom 的技術文章</title>
+  <title>React Router 基本概念 | tom 的技術文章</title>
   
     <script>
       function sendPageView() {
@@ -207,7 +207,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/20/react/react-router-dom-1/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/20/react/React-Router-基本概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -220,7 +220,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          React Router 教學 - 1
+          React Router 基本概念
         </h1>
 
         <div class="post-meta">
@@ -229,10 +229,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-20 15:37:00 / Modified: 16:55:40" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
+              <time title="Created: 2020-01-20 15:37:00" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-22 14:50:20" itemprop="dateModified" datetime="2020-01-22T14:50:20+08:00">2020-01-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -256,9 +262,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="React-Router-的三個重要元件"><a href="#React-Router-的三個重要元件" class="headerlink" title="React Router 的三個重要元件"></a>React Router 的三個重要元件</h2><h3 id="Router"><a href="#Router" class="headerlink" title="Router:"></a>Router:</h3><a id="more"></a>
-<ul>
-<li>BrowserRouter:<br>  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置</li>
+        <h2 id="React-Router-的三個重要元件"><a href="#React-Router-的三個重要元件" class="headerlink" title="React Router 的三個重要元件"></a>React Router 的三個重要元件</h2><h3 id="Router"><a href="#Router" class="headerlink" title="Router:"></a>Router:</h3><ul>
+<li>BrowserRouter:<br>  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置<a id="more"></a></li>
 <li>HashRouter:<br>  頁面 url 會有 # 字, 透過 hash 來對路由進行控制</li>
 </ul>
 <p>Code Example:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HashRouter &#125; <span class="keyword">from</span> <span class="string">"react-router-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello React Router<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;HashRouter&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;<span class="regexp">/HashRouter&gt;,</span></span><br><span class="line"><span class="regexp">  document.getElementById("root")</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure></p>
@@ -293,10 +298,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/11/24/express-使用-facebook-passport-驗證/" rel="prev" title="Express 使用 Passport-Facebook 驗證,串接 Graphy Api">
+    <a href="/2017/11/24/nodejs/express-使用-facebook-passport-驗證/" rel="prev" title="Express 使用 Passport-Facebook 驗證,串接 Graphy Api">
       <i class="fa fa-chevron-left"></i> Express 使用 Passport-Facebook 驗證,串接 Graphy Api
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/22/react/React-Router-與-Hook-邂逅-2/" rel="next" title="React Router 與 Hook 的邂逅">
+      React Router 與 Hook 的邂逅 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -372,7 +380,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -385,7 +393,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

@@ -202,7 +202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/20/react/react-router-dom-1/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/22/react/React-Router-與-Hook-邂逅-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -216,7 +216,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/20/react/react-router-dom-1/" class="post-title-link" itemprop="url">React Router 教學 - 1</a>
+            <a href="/2020/01/22/react/React-Router-與-Hook-邂逅-2/" class="post-title-link" itemprop="url">React Router 與 Hook 的邂逅</a>
         </h1>
 
         <div class="post-meta">
@@ -227,7 +227,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-20 15:37:00 / Modified: 16:55:40" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
+              <time title="Created: 2020-01-22 16:10:00 / Modified: 16:14:43" itemprop="dateCreated datePublished" datetime="2020-01-22T16:10:00+08:00">2020-01-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,10 +252,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="React-Router-的三個重要元件"><a href="#React-Router-的三個重要元件" class="headerlink" title="React Router 的三個重要元件"></a>React Router 的三個重要元件</h2><h3 id="Router"><a href="#Router" class="headerlink" title="Router:"></a>Router:</h3>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在 React Hook 的風潮帶動下, React Router 在 v5.1 版的時候,<br>也 Release 了 useParams, useLocation, useHistory, useRouteMatch 的 Hooks,<br>接下來我會介紹這幾種 Hooks 的用法, 讓你的 React Router 也 Hook 起來吧。<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/20/react/react-router-dom-1/#more" rel="contents">
+              <a class="btn" href="/2020/01/22/react/React-Router-與-Hook-邂逅-2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -279,7 +279,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2017/11/24/express-使用-facebook-passport-驗證/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2020/01/20/react/React-Router-基本概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -293,7 +293,91 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/11/24/express-使用-facebook-passport-驗證/" class="post-title-link" itemprop="url">Express 使用 Passport-Facebook 驗證,串接 Graphy Api</a>
+            <a href="/2020/01/20/react/React-Router-基本概念/" class="post-title-link" itemprop="url">React Router 基本概念</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-20 15:37:00" itemprop="dateCreated datePublished" datetime="2020-01-20T15:37:00+08:00">2020-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-22 14:50:20" itemprop="dateModified" datetime="2020-01-22T14:50:20+08:00">2020-01-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="React-Router-的三個重要元件"><a href="#React-Router-的三個重要元件" class="headerlink" title="React Router 的三個重要元件"></a>React Router 的三個重要元件</h2><h3 id="Router"><a href="#Router" class="headerlink" title="Router:"></a>Router:</h3><ul>
+<li>BrowserRouter:<br>  頁面 url 不會有 # 字, 它的原理是使用 HTML5 History API(pushState, replaceState, popState), 來使你的內容依照 url 做改變, 但需要做 server 的配置
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/20/react/React-Router-基本概念/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2017/11/24/nodejs/express-使用-facebook-passport-驗證/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile/tom.jpg">
+      <meta itemprop="name" content="tom.chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tom 的技術文章">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/24/nodejs/express-使用-facebook-passport-驗證/" class="post-title-link" itemprop="url">Express 使用 Passport-Facebook 驗證,串接 Graphy Api</a>
         </h1>
 
         <div class="post-meta">
@@ -310,7 +394,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-20 11:53:09" itemprop="dateModified" datetime="2020-01-20T11:53:09+08:00">2020-01-20</time>
+                <time title="Modified: 2020-01-22 14:40:54" itemprop="dateModified" datetime="2020-01-22T14:40:54+08:00">2020-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -338,7 +422,7 @@
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期開始再玩 Express, 發現一個很好用的 authentication middleware (<a href="https://github.com/jaredhanson/passport" target="_blank" rel="noopener">Passport</a> ) ,<br>Passport 是一套整合很多驗證的模組, 例如: Login, Fb, Google… 等,<br>讓我們能快速開發登入功能, 是一個整合不錯的套件。<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/11/24/express-使用-facebook-passport-驗證/#more" rel="contents">
+              <a class="btn" href="/2017/11/24/nodejs/express-使用-facebook-passport-驗證/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -362,7 +446,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2017/05/26/使用-Entity-Framework-x-MySQL/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2017/05/26/dotnet/使用-Entity-Framework-x-MySQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -376,7 +460,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/05/26/使用-Entity-Framework-x-MySQL/" class="post-title-link" itemprop="url">使用 Entity Framework x MySQL</a>
+            <a href="/2017/05/26/dotnet/使用-Entity-Framework-x-MySQL/" class="post-title-link" itemprop="url">使用 Entity Framework x MySQL</a>
         </h1>
 
         <div class="post-meta">
@@ -393,7 +477,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-20 11:53:23" itemprop="dateModified" datetime="2020-01-20T11:53:23+08:00">2020-01-20</time>
+                <time title="Modified: 2020-01-22 14:41:01" itemprop="dateModified" datetime="2020-01-22T14:41:01+08:00">2020-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -421,7 +505,7 @@
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近手邊剛好有案子需要使用到 MySQL 當資料庫，因此有機會使用 Entity Framework 來搭配 MySQ 玩玩看，<br>我在網路上看到許多文章，有看到許多種方式用 EF 去連結 MySQL。因此我想要介紹用簡單的方式來設定，<br>以下是我使用的方式:<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/05/26/使用-Entity-Framework-x-MySQL/#more" rel="contents">
+              <a class="btn" href="/2017/05/26/dotnet/使用-Entity-Framework-x-MySQL/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -445,7 +529,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/12/06/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/12/06/dotnet/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -459,7 +543,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/12/06/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/" class="post-title-link" itemprop="url">ASP.NET MVC x CKEditor 檔案上傳至 Azure Storage </a>
+            <a href="/2016/12/06/dotnet/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/" class="post-title-link" itemprop="url">ASP.NET MVC x CKEditor 檔案上傳至 Azure Storage </a>
         </h1>
 
         <div class="post-meta">
@@ -476,7 +560,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-20 11:53:02" itemprop="dateModified" datetime="2020-01-20T11:53:02+08:00">2020-01-20</time>
+                <time title="Modified: 2020-01-22 14:40:28" itemprop="dateModified" datetime="2020-01-22T14:40:28+08:00">2020-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -504,7 +588,7 @@
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上一篇已經教大家如何使用 ASP.NET 搭配 CKEditor 了，這一篇主要是要介紹如何使用 CKEditor 圖文上傳至<br>Azure Storage 上。由於這個專案是要放在雲端上面，因此檔案必須也要照雲端的規範走。<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/12/06/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/#more" rel="contents">
+              <a class="btn" href="/2016/12/06/dotnet/ASP-NET-MVC-x-CKEditor-檔案上傳至-Azure-Storage/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -528,7 +612,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/12/06/dotnet/使用-ASP-NET-MVC-搭配-CKEditor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -542,7 +626,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/" class="post-title-link" itemprop="url">使用 ASP.NET MVC 搭配 CKEditor</a>
+            <a href="/2016/12/06/dotnet/使用-ASP-NET-MVC-搭配-CKEditor/" class="post-title-link" itemprop="url">使用 ASP.NET MVC 搭配 CKEditor</a>
         </h1>
 
         <div class="post-meta">
@@ -559,7 +643,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-20 11:53:17" itemprop="dateModified" datetime="2020-01-20T11:53:17+08:00">2020-01-20</time>
+                <time title="Modified: 2020-01-22 14:40:58" itemprop="dateModified" datetime="2020-01-22T14:40:58+08:00">2020-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -587,7 +671,7 @@
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由於專案需求常常要用到圖文編輯器，所以研究了一下 CKEditor 如何搭配 ASP.NET MVC上使用，<br>因此今天要介紹如何在 ASP.NET MVC 中使用 CKEditor。<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/12/06/使用-ASP-NET-MVC-搭配-CKEditor/#more" rel="contents">
+              <a class="btn" href="/2016/12/06/dotnet/使用-ASP-NET-MVC-搭配-CKEditor/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -611,7 +695,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/">
+    <link itemprop="mainEntityOfPage" href="http://tomchen60317.github.io/2016/11/18/hexo/使用-HEXO-一-建立自己的第一個部落格/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile/tom.jpg">
@@ -625,7 +709,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/" class="post-title-link" itemprop="url">使用 HEXO(一): 建立自己的第一個部落格</a>
+            <a href="/2016/11/18/hexo/使用-HEXO-一-建立自己的第一個部落格/" class="post-title-link" itemprop="url">使用 HEXO(一): 建立自己的第一個部落格</a>
         </h1>
 
         <div class="post-meta">
@@ -642,7 +726,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-20 11:53:27" itemprop="dateModified" datetime="2020-01-20T11:53:27+08:00">2020-01-20</time>
+                <time title="Modified: 2020-01-22 14:41:22" itemprop="dateModified" datetime="2020-01-22T14:41:22+08:00">2020-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -670,7 +754,7 @@
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>這是人生的第一篇技術文章，今天主要是介紹如何使用 Hexo 建立自己的 Blog<br>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/11/18/使用-HEXO-一-建立自己的第一個部落格/#more" rel="contents">
+              <a class="btn" href="/2016/11/18/hexo/使用-HEXO-一-建立自己的第一個部落格/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -759,7 +843,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -772,7 +856,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
