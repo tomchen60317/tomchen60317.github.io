@@ -11,4 +11,4 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: https://1100137221.github.io/sitemap.xml
+Sitemap: https://tomchen60317.github.io/sitemap.xml
